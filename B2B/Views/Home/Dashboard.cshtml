@@ -1,30 +1,118 @@
 ﻿@{
-	Layout = null;
+    Layout = null; // or set your layout
 }
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
-	<title>Dashboard</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-	<style>
-		body { overflow-x: hidden; }
-		.sidebar { width: 250px; height: 100vh; position: fixed; }
-		.content { margin-left: 250px; padding: 20px; }
-	</style>
+    <meta charset="utf-8" />
+    <title>Collapsible Menu</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        /* simple sidebar styling */
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background: #0d6efd;
+            color: #fff;
+        }
+
+            .sidebar a {
+                color: #fff;
+            }
+
+            .sidebar .nav-link {
+                padding: 0.6rem 1rem;
+            }
+
+        .chev {
+            transition: transform .2s ease;
+        }
+
+            .chev.rotate {
+                transform: rotate(180deg);
+            }
+    </style>
 </head>
-<body>
-	<div class="sidebar bg-dark text-white p-3">
-		<h4 class="mb-4">My Panel</h4>
-		<ul class="nav flex-column">
-			<li class="nav-item mb-2"><a class="nav-link text-white" href="#">Dashboard</a></li>
-			<li class="nav-item mb-2"><a class="nav-link text-white" href="#">Users</a></li>
-			<li class="nav-item mb-2"><a class="nav-link text-white" href="#">Reports</a></li>
-		</ul>
-	</div>
-	<div class="content">
-		<h2>Welcome to Dashboard</h2>
-		<p>This is content area. It will change on clicking left menu.</p>
-	</div>
+<body class="bg-light">
+
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav class="sidebar d-flex flex-column p-2">
+            <h5 class="px-2" style="text-align:center">B2B</h5>
+            <ul class="nav nav-pills flex-column mb-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Dashboard</a>
+                </li>
+
+                <li>
+                    <!-- top-level collapsible item -->
+                    <a class="nav-link d-flex justify-content-between align-items-center"
+                       data-bs-toggle="collapse"
+                       href="#collapseProducts"
+                       role="button"
+                       aria-expanded="false"
+                       aria-controls="collapseProducts">
+                        Products
+                        <span class="chev">▾</span>
+                    </a>
+
+                    <div class="collapse" id="collapseProducts">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="nav-link ps-4">All Products</a></li>
+                            <li><a href="#" class="nav-link ps-4">Add Product</a></li>
+                            <li><a href="#" class="nav-link ps-4">Categories</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <a class="nav-link d-flex justify-content-between align-items-center"
+                       data-bs-toggle="collapse"
+                       href="#collapseUsers"
+                       role="button"
+                       aria-expanded="false"
+                       aria-controls="collapseUsers">
+                        Users
+                        <span class="chev">▾</span>
+                    </a>
+
+                    <div class="collapse" id="collapseUsers">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="nav-link ps-4">All Users</a></li>
+                            <li><a href="#" class="nav-link ps-4">Roles</a></li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item mt-auto">
+                    <a class="nav-link" href="#">Settings</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main content -->
+        <div class="flex-grow-1 p-4">
+            <h3>Page content</h3>
+            <p>Click menu items on the left to open/close submenus.</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS (bundle includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- small script to rotate chevron when collapse toggles -->
+    <script>
+        document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(btn => {
+            const target = document.querySelector(btn.getAttribute('href'));
+            const chev = btn.querySelector('.chev');
+
+            // update chevron on shown/hidden
+            target.addEventListener('shown.bs.collapse', () => chev.classList.add('rotate'));
+            target.addEventListener('hidden.bs.collapse', () => chev.classList.remove('rotate'));
+        });
+    </script>
 </body>
 </html>

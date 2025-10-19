@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using B2B.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace B2B.Data
 {
@@ -10,6 +11,6 @@ namespace B2B.Data
         }
 
         // Example table
-        public DbSet<User> Users { get; set; }
+        public DbSet<Users> Users { get; set; }
     }
 }

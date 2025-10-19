@@ -24,6 +24,10 @@
 
             <!-- RIGHT SECTION (Login Form) -->
             <div class="col-md-5 py-5 px-5">
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Error</div>
+                }
                 <form method="get" action="/Home/Index">
                     <div class="mb-3">
                         <label class="text-white">Email</label>

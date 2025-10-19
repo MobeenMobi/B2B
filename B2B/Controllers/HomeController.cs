@@ -1,6 +1,9 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Security.Claims;
 using B2B.Data;
 using B2B.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 
 namespace B2B.Controllers
@@ -16,12 +19,12 @@ namespace B2B.Controllers
             _context = context;
         }
 
-        public IActionResult Index(string email, string password)
+        public async Task<IActionResult> Index(string email, string password)
         {
             if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(password))
             {
                 var user = _context.Users
-                .FirstOrDefault(u => u.Email == email && u.PasswordHash == password);
+                    .FirstOrDefault(u => u.Email == email && u.PasswordHash == password);
 
                 if (user == null)
                 {
@@ -30,14 +33,26 @@ namespace B2B.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Dashboard");
-                }
-                   
-            }
-            else
+                    HttpContext.Session.SetString("UserName", user.FullName);
+
+                    // ✅ Create claims (store user info here)
+                    var claims = new List<Claim>
             {
-                return View();
+                new Claim(ClaimTypes.Name, user.FullName),   // OR user.Email
+                new Claim(ClaimTypes.Email, user.Email)
+            };
+
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+
+                    // ✅ Sign in (set cookie)
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+                    return RedirectToAction("Dashboard", "Home");
+                }
             }
+
+            return View();
         }
 
         public IActionResult Register()
@@ -55,6 +70,13 @@ namespace B2B.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home"); // or your controller name
         }
 
 

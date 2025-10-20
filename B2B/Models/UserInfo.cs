@@ -23,7 +23,7 @@
         public string ApproverName { get; set; }
         public string Password { get; set; }
 
-        public string RePassword { get; set; }  
+        public string RePassword { get; set; }
 
         public List<IFormFile> Documents { get; set; }
 

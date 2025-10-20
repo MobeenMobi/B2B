@@ -1,10 +1,13 @@
 ﻿using System.Diagnostics;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using B2B.Data;
+using B2B.EmailService;
 using B2B.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using static System.Net.WebRequestMethods;
 
 namespace B2B.Controllers
 {
@@ -12,11 +15,13 @@ namespace B2B.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IEmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IEmailService emailService)
         {
             _logger = logger;
             _context = context;
+            _emailService = emailService;
         }
 
         public async Task<IActionResult> Index(string email, string password)
@@ -33,6 +38,12 @@ namespace B2B.Controllers
                 }
                 else
                 {
+                    string OTP =  GenerateSecureOtp();
+                    TempData["OTP"] = OTP;
+                    TempData["OtpExpiry"] = DateTime.Now.AddMinutes(5);
+                    //await SendOtp(user.Email, OTP);
+
+
                     HttpContext.Session.SetString("UserName", user.FullName);
 
                     // ✅ Create claims (store user info here)
@@ -48,7 +59,7 @@ namespace B2B.Controllers
                     // ✅ Sign in (set cookie)
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-                    return RedirectToAction("Dashboard", "Home");
+                    return RedirectToAction("VerifyOtp", "Home");
                 }
             }
 
@@ -84,6 +95,45 @@ namespace B2B.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public async Task<IActionResult> SendOtp(string clientEmail, string otp)
+        {
+            await _emailService.SendEmailAsync(clientEmail, "Your OTP", otp);
+            return Ok("Email Sent");
+        }
+
+        public string GenerateSecureOtp()
+        {
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                var bytes = new byte[4];
+                rng.GetBytes(bytes);
+                int otp = BitConverter.ToInt32(bytes, 0) % 1000000;
+                return Math.Abs(otp).ToString("D6"); // Always 6 digits
+            }
+        }
+
+        [HttpGet]
+        public IActionResult VerifyOtp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult VerifyOtp(string otp)
+        {
+            string storedOtp = TempData["OTP"]?.ToString();
+            DateTime expiry = Convert.ToDateTime(TempData["OtpExpiry"]);
+
+            if (storedOtp == null || DateTime.Now > expiry)
+                return Content("OTP expired. Please request again.");
+
+            if (otp == storedOtp)
+                return RedirectToAction("Dashboard");
+
+            TempData.Keep(); // keep OTP alive for re-entry
+            return Content("Invalid OTP. Try again.");
         }
     }
 }

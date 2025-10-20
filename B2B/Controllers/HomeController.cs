@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using B2B.Data;
 using B2B.EmailService;
 using B2B.Models;
+using B2B.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -66,9 +67,26 @@ namespace B2B.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(RegisterViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var companyName = model.Company.CompanyName;
+            var bankName = model.Bank.Bank;
+            var userFirstName = model.User.FirstName;
+
+
+            return RedirectToAction("Dashboard");
         }
 
         public IActionResult Dashboard()

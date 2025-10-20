@@ -1,9 +1,11 @@
-﻿@{
+﻿@model B2B.ViewModels.RegisterViewModel;
+@{
 	Layout = null;
 }
 @{
 	Layout = ""; // works in some ASP.NET setups where null is ignored
 }
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,27 +33,27 @@
 				<button class="nav-link" id="step3-tab" data-bs-toggle="pill" data-bs-target="#step3" type="button" role="tab">● Person In Charge</button>
 			</li>
 		</ul>
-		<form method="post" action="/Account/Register">
+		<form method="post" action="/Home/Register">
 			<div class="tab-content" id="pills-tabContent">
 				<div class="tab-pane fade show active" id="step1" role="tabpanel">
 					<div class="mb-3">
 						<label>Company / Institution Name <span class="required">*</span></label>
-						<input class="form-control" name="CompanyName" required />
+						<input asp-for="Company.CompanyName" class="form-control" required/>
 					</div>
 
 					<div class="mb-3">
 						<label>Registration Number <span class="required">*</span></label>
-						<input class="form-control" name="RegistrationNumber" required />
+						<input asp-for="Company.RegistrationNumber" class="form-control" required/>
 					</div>
 
 					<div class="mb-3">
 						<label>Date of Incorporation <span class="required">*</span></label>
-						<input type="date" class="form-control" name="DateOfIncorporation" required />
+						<input asp-for="Company.DateOfIncorporation" type="date" class="form-control" required/>
 					</div>
 
 					<div class="mb-3">
 						<label>Business / Industry Type <span class="required">*</span></label>
-						<select class="form-control" name="BusinessType" required>
+						<select asp-for="Company.BusinessType" class="form-control" required>
 							<option value="NGO (Association/Club/Society)">MY - NGO (Association/Club/Society)</option>
 							<option value="Partnership (2 to 20 Owners)">MY - Partnership (2 to 20 Owners)</option>
 							<option value="Private Limited (Sdn. Bhd. Corporation)">MY - Private Limited (Sdn. Bhd. Corporation)</option>
@@ -62,7 +64,7 @@
 
 					<div class="mb-3">
 						<label>Nature of Business <span class="required">*</span></label>
-						<select class="form-control" name="NatureOfBusiness" required>
+						<select asp-for="Company.NatureOfBusiness" class="form-control" required>
 							<option value="Agriculture/Forestry/Logging">Agriculture/Forestry/Logging</option>
 							<option value="Amusement & Recreation Services">Amusement & Recreation Services</option>
 							<option value="Building Society">Building Society</option>
@@ -85,44 +87,45 @@
 
 					<div class="mb-3">
 						<label>Short Business Description <span class="required">*</span></label>
-						<input class="form-control" name="ShortBusinessDescription" placeholder="eg: Hajo Agent" />
+						<input asp-for="Company.ShortBusinessDescription" class="form-control" placeholder="eg: Hajo Agent" />
 					</div>
 
 					<div class="mb-3">
 						<label>Company Email</label>
-						<input type="email" class="form-control" name="CompanyEmail" />
+						<input asp-for="Company.CompanyEmail" class="form-control"  />
 					</div>
 
 					<div class="mb-3">
 						<label>Company Website</label>
-						<input type="url" class="form-control" name="CompanyWebsite" placeholder="https://www.example.com" />
+						<input asp-for="Company.CompanyWebsite" type="url"  class="form-control" />
 					</div>
 
 					<div class="mb-3">
 						<label>Phone No.</label>
-						<input class="form-control" name="PhoneNo" required />
+						<input asp-for="Company.PhoneNo" class="form-control" required />
 					</div>
 
 					<div class="mb-3">
 						<label>Company / Organization / Mailing Address <span class="required">*</span></label>
-						<input class="form-control mb-2" name="AddressLine1" placeholder="Address line 1" required />
-						<input class="form-control mb-2" name="AddressLine2" placeholder="Address line 2 (Optional)" />
-						<input class="form-control" name="AddressLine3" placeholder="Address line 3 (Optional)" />
+						<input asp-for="Company.AddressLine1" placeholder="Address line 1" class="form-control mb-2" required />
+						<input asp-for="Company.AddressLine2" placeholder="Address line 2 (Optional)" class="form-control mb-2" />
+						<input asp-for="Company.AddressLine3" placeholder="Address line 3 (Optional)" class="form-control" />
 					</div>
 
 					<div class="mb-3">
 						<label>City <span class="required">*</span></label>
-						<input class="form-control" name="City"  required />
+						<input asp-for="Company.City" class="form-control" required />
+
 					</div>
 
 					<div class="mb-3">
 						<label>Postcode <span class="required">*</span></label>
-						<input class="form-control" name="Postcode" value="63000" required />
+						<input asp-for="Company.Postcode" class="form-control" required />
 					</div>
 
 					<div class="mb-3">
 						<label>State <span class="required">*</span></label>
-						<select class="form-control" name="State" required>
+							<select asp-for="Company.State" class="form-control" required>
 							<option value="Johor">Johor</option>
 							<option value="Kedah">Kedah</option>
 							<option value="Kelantan">Kelantan</option>
@@ -145,7 +148,7 @@
 
 					<div class="mb-3">
 						<label>Country <span class="required">*</span></label>
-						<input class="form-control" name="Country" value="Malaysia" disabled required />
+						<input asp-for="Company.Country" class="form-control" value="Malaysia" disabled required />
 					</div>
 
 					<button class="btn btn-primary w-100" type="button" onclick="validateStep(1, 2)">Next</button>
@@ -153,7 +156,7 @@
 				<div class="tab-pane fade" id="step2" role="tabpanel">
 					<div class="mb-3">
 						<label>Bank <span class="required">*</span></label>
-						<select class="form-control" name="Bank" id="Bank" required>
+							<select asp-for="Bank.Bank" id="Bank" class="form-control" required>
 							<option value="">-- Select Bank --</option>
 							<option value="Affin Bank Berhad">Affin Bank Berhad</option>
 							<option value="Agrobank Malaysia">Agrobank Malaysia</option>
@@ -183,19 +186,47 @@
 						</select>
 
 						</div>
-					<div class="mb-3"><label>Bank Account Holder Name <span class="required">*</span></label><input class="form-control" name="AccountHolder" required /></div>
-					<div class="mb-3"><label>Bank Account Number <span class="required">*</span></label><input class="form-control" name="AccountNumber" required /></div>
+					<div class="mb-3"><label>Bank Account Holder Name <span class="required">*</span></label><input asp-for="Bank.AccountHolder" class="form-control" required /></div>
+					<div class="mb-3"><label>Bank Account Number <span class="required">*</span></label><input asp-for="Bank.AccountNumber" class="form-control" required /></div>
 					<button class="btn btn-secondary w-100 mb-2" type="button" onclick="nextStep(1)">Back</button>
 					<button class="btn btn-primary w-100" type="button" onclick="validateStep(2, 3)">Next</button>
 				</div>
 				<div class="tab-pane fade" id="step3" role="tabpanel">
-					<div class="mb-3"><label class="form-label">Control Option <span class="required">*</span></label><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ControlOption" value="Single" required><label class="form-check-label">Single Control</label></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="ControlOption" value="Dual"><label class="form-check-label">Dual Control</label></div></div>
-					<div class="mb-3"><label class="form-label">First Name <span class="required">*</span></label><input class="form-control" name="FirstName" required /></div>
-					<div class="mb-3"><label class="form-label">Middle Name</label><input class="form-control" name="MiddleName" /></div>
-					<div class="mb-3"><label class="form-label">Last Name</label><input class="form-control" name="LastName" /></div>
-					<div class="mb-3"><label class="form-label">Nationality <span class="required">*</span></label><select class="form-select" name="Nationality" required><option value="">Select nationality...</option><option>Malaysia</option><option>Pakistan</option><option>India</option></select></div>
-					<div class="mb-3"><label class="form-label">Date of Birth <span class="required">*</span></label><input type="date" class="form-control" name="DateOfBirth" required /></div>
-					<div class="mb-3"><label class="form-label">Gender <span class="required">*</span></label><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="Gender" value="Female" required><label class="form-check-label">Female</label></div><div class="form-check form-check-inline"><input class="form-check-input" type="radio" name="Gender" value="Male"><label class="form-check-label">Male</label></div></div>
+					<div class="mb-3"><label class="form-label">Control Option <span class="required">*</span></label>
+						<div class="form-check form-check-inline">
+							<input asp-for="User.ControlOption" type="radio" class="form-check-input" required />
+						<label class="form-check-label">Single Control</label></div><div class="form-check form-check-inline">
+							<input class="form-check-input" type="radio" name="ControlOption" value="Dual">
+							<label class="form-check-label">Dual Control</label></div></div>
+					<div class="mb-3"><label class="form-label">First Name <span class="required">*</span></label>
+						<input asp-for="User.FirstName" class="form-control" required />
+					</div>
+					<div class="mb-3"><label class="form-label">Middle Name</label>
+						<input asp-for="User.MiddleName" class="form-control" />
+					</div>
+					<div class="mb-3"><label class="form-label">Last Name</label>
+						<input asp-for="User.LastName" class="form-control" />
+					</div>
+					<div class="mb-3"><label class="form-label">Nationality <span class="required">*</span></label>
+							<select asp-for="User.Nationality" class="form-control" required>
+							<option value="">Select nationality...</option>
+							<option>Malaysia</option>
+							<option>Pakistan</option>
+							<option>India</option>
+						</select>
+						</div>
+					<div class="mb-3"><label class="form-label">Date of Birth <span class="required">*</span></label>
+						<input asp-for="User.DateOfBirth" type="date" class="form-control" required/>
+					</div>
+					<div class="mb-3"><label class="form-label">Gender <span class="required">*</span></label>
+						<div class="form-check form-check-inline">
+							<input asp-for="User.Gender" class="form-check-input" type="radio" value="Female" required />
+						<label class="form-check-label">Female</label></div>
+						<div class="form-check form-check-inline">
+						<input class="form-check-input" type="radio" name="Gender" value="Male">
+						<label class="form-check-label">Male</label>
+					</div>
+					</div>
 					<div class="mb-3"><label class="form-label">Email <span class="required">*</span></label><input type="email" class="form-control" name="Email" required /></div>
 					<div class="mb-3"><label class="form-label">ID Type <span class="required">*</span></label><select class="form-select" name="IDType" required><option>MyKad</option><option>Passport</option></select></div>
 					<div class="mb-3"><label class="form-label">ID Number <span class="required">*</span></label><input class="form-control" name="IDNumber" required /></div>

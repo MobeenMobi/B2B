@@ -52,7 +52,11 @@
 					<div class="mb-3">
 						<label>Business / Industry Type <span class="required">*</span></label>
 						<select class="form-control" name="BusinessType" required>
-							<option value="MY - Sole Proprietorship (One Owner)">MY - Sole Proprietorship (One Owner)</option>
+							<option value="NGO (Association/Club/Society)">MY - NGO (Association/Club/Society)</option>
+							<option value="Partnership (2 to 20 Owners)">MY - Partnership (2 to 20 Owners)</option>
+							<option value="Private Limited (Sdn. Bhd. Corporation)">MY - Private Limited (Sdn. Bhd. Corporation)</option>
+							<option value="Public Listed Corporation">MY - Public Listed Corporation</option>
+							<option value="Sole Proprietorship (One Owner)">MY - Sole Proprietorship (One Owner)</option>
 						</select>
 					</div>
 
@@ -60,7 +64,23 @@
 						<label>Nature of Business <span class="required">*</span></label>
 						<select class="form-control" name="NatureOfBusiness" required>
 							<option value="Agriculture/Forestry/Logging">Agriculture/Forestry/Logging</option>
+							<option value="Amusement & Recreation Services">Amusement & Recreation Services</option>
+							<option value="Building Society">Building Society</option>
+							<option value="Business Services">Business Services</option>
+							<option value="Construction">Construction</option>
+							<option value="Education">Education</option>
+							<option value="Finance">Finance</option>
+							<option value="Government">Government</option>
+							<option value="Health and Social Work">Health and Social Work</option>
+							<option value="Hotel">Hotel</option>
+							<option value="Household">Household</option>
+							<option value="Import/Export">Import/Export</option>
+							<option value="Information and Communication">Information and Communication</option>
+							<option value="Insurance">Insurance</option>
+							<option value="International Bodies">International Bodies</option>
+							<option value="Legal">Legal</option>
 						</select>
+
 					</div>
 
 					<div class="mb-3">
@@ -79,11 +99,6 @@
 					</div>
 
 					<div class="mb-3">
-						<label>Country Phone Prefix</label>
-						<input class="form-control" name="CountryPhonePrefix" value="+60" />
-					</div>
-
-					<div class="mb-3">
 						<label>Phone No.</label>
 						<input class="form-control" name="PhoneNo" required />
 					</div>
@@ -97,7 +112,7 @@
 
 					<div class="mb-3">
 						<label>City <span class="required">*</span></label>
-						<input class="form-control" name="City" value="Cyberjaya" required />
+						<input class="form-control" name="City"  required />
 					</div>
 
 					<div class="mb-3">
@@ -109,6 +124,22 @@
 						<label>State <span class="required">*</span></label>
 						<select class="form-control" name="State" required>
 							<option value="Johor">Johor</option>
+							<option value="Kedah">Kedah</option>
+							<option value="Kelantan">Kelantan</option>
+							<option value="Malacca">Malacca</option>
+							<option value="Negeri Sembilan">Negeri Sembilan</option>
+							<option value="Pahang">Pahang</option>
+							<option value="Penang">Penang</option>
+							<option value="Perak">Perak</option>
+							<option value="Perlis">Perlis</option>
+							<option value="Sabah">Sabah</option>
+							<option value="Sarawak">Sarawak</option>
+							<option value="Selangor">Selangor</option>
+							<option value="Terengganu">Terengganu</option>
+							<!-- Federal Territories -->
+							<option value="Kuala Lumpur">Kuala Lumpur</option>
+							<option value="Labuan">Labuan</option>
+							<option value="Putrajaya">Putrajaya</option>
 						</select>
 					</div>
 
@@ -120,7 +151,38 @@
 					<button class="btn btn-primary w-100" type="button" onclick="validateStep(1, 2)">Next</button>
 				</div>
 				<div class="tab-pane fade" id="step2" role="tabpanel">
-					<div class="mb-3"><label>Bank <span class="required">*</span></label><input class="form-control" name="BankName" required /></div>
+					<div class="mb-3">
+						<label>Bank <span class="required">*</span></label>
+						<select class="form-control" name="Bank" id="Bank" required>
+							<option value="">-- Select Bank --</option>
+							<option value="Affin Bank Berhad">Affin Bank Berhad</option>
+							<option value="Agrobank Malaysia">Agrobank Malaysia</option>
+							<option value="Al Rajhi Bank (Malaysia)">Al Rajhi Bank (Malaysia)</option>
+							<option value="Alliance Bank Malaysia Berhad">Alliance Bank Malaysia Berhad</option>
+							<option value="AmBank Group Berhad (AmBank)">AmBank Group Berhad (AmBank)</option>
+							<option value="Bangkok Bank Berhad (Malaysia)">Bangkok Bank Berhad (Malaysia)</option>
+							<option value="Bank Islam Malaysia Berhad">Bank Islam Malaysia Berhad</option>
+							<option value="Bank Muamalat Malaysia Berhad">Bank Muamalat Malaysia Berhad</option>
+							<option value="Bank of China (Malaysia) Berhad">Bank of China (Malaysia) Berhad</option>
+							<option value="Bank Rakyat Malaysia Berhad">Bank Rakyat Malaysia Berhad</option>
+							<option value="Bank Simpanan Nasional (BSN)">Bank Simpanan Nasional (BSN)</option>
+							<option value="BNP Paribas Malaysia Berhad">BNP Paribas Malaysia Berhad</option>
+							<option value="CIMB Group Holdings Berhad (CIMB)">CIMB Group Holdings Berhad (CIMB)</option>
+							<option value="Citibank Berhad (Malaysia)">Citibank Berhad (Malaysia)</option>
+							<option value="Deutsche Bank (Malaysia) Berhad">Deutsche Bank (Malaysia) Berhad</option>
+							<option value="Hong Leong Bank Berhad">Hong Leong Bank Berhad</option>
+							<option value="HSBC Bank Malaysia Berhad">HSBC Bank Malaysia Berhad</option>
+							<option value="ICBC (Malaysia) Berhad (Industrial &amp; Commercial Bank of China Malaysia)">ICBC (Malaysia) Berhad (Industrial &amp; Commercial Bank of China Malaysia)</option>
+							<option value="Malayan Banking Berhad (Maybank)">Malayan Banking Berhad (Maybank)</option>
+							<option value="MBSB Bank Berhad">MBSB Bank Berhad</option>
+							<option value="OCBC Bank (Malaysia) Berhad">OCBC Bank (Malaysia) Berhad</option>
+							<option value="Public Bank Berhad">Public Bank Berhad</option>
+							<option value="RHB Bank Berhad">RHB Bank Berhad</option>
+							<option value="Standard Chartered Bank Malaysia">Standard Chartered Bank Malaysia</option>
+							<option value="United Overseas Bank (Malaysia) (UOB Malaysia)">United Overseas Bank (Malaysia) (UOB Malaysia)</option>
+						</select>
+
+						</div>
 					<div class="mb-3"><label>Bank Account Holder Name <span class="required">*</span></label><input class="form-control" name="AccountHolder" required /></div>
 					<div class="mb-3"><label>Bank Account Number <span class="required">*</span></label><input class="form-control" name="AccountNumber" required /></div>
 					<button class="btn btn-secondary w-100 mb-2" type="button" onclick="nextStep(1)">Back</button>

@@ -22,5 +22,11 @@
         public string Occupation { get; set; }
         public string ApproverName { get; set; }
         public string Password { get; set; }
+
+        public string RePassword { get; set; }  
+
+        public List<IFormFile> Documents { get; set; }
+
+        public bool Agree { get; set; }
     }
 }

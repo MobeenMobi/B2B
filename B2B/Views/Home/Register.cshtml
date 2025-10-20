@@ -194,9 +194,10 @@
 				<div class="tab-pane fade" id="step3" role="tabpanel">
 					<div class="mb-3"><label class="form-label">Control Option <span class="required">*</span></label>
 						<div class="form-check form-check-inline">
-							<input asp-for="User.ControlOption" type="radio" class="form-check-input" required />
+							<input asp-for="User.ControlOption" type="radio" class="form-check-input" value="Single" required />
 						<label class="form-check-label">Single Control</label></div><div class="form-check form-check-inline">
 							<input class="form-check-input" type="radio" name="ControlOption" value="Dual">
+							<input asp-for="User.ControlOption" type="radio" class="form-check-input" value="Dual" />
 							<label class="form-check-label">Dual Control</label></div></div>
 					<div class="mb-3"><label class="form-label">First Name <span class="required">*</span></label>
 						<input asp-for="User.FirstName" class="form-control" required />
@@ -223,26 +224,92 @@
 							<input asp-for="User.Gender" class="form-check-input" type="radio" value="Female" required />
 						<label class="form-check-label">Female</label></div>
 						<div class="form-check form-check-inline">
-						<input class="form-check-input" type="radio" name="Gender" value="Male">
+							<input asp-for="User.Gender" class="form-check-input" type="radio" value="Male" />
 						<label class="form-check-label">Male</label>
 					</div>
 					</div>
-					<div class="mb-3"><label class="form-label">Email <span class="required">*</span></label><input type="email" class="form-control" name="Email" required /></div>
-					<div class="mb-3"><label class="form-label">ID Type <span class="required">*</span></label><select class="form-select" name="IDType" required><option>MyKad</option><option>Passport</option></select></div>
-					<div class="mb-3"><label class="form-label">ID Number <span class="required">*</span></label><input class="form-control" name="IDNumber" required /></div>
-					<div class="mb-3"><label class="form-label">Country Phone Prefix <span class="required">*</span></label><input class="form-control" name="PhonePrefix" value="+60" required /></div>
-					<div class="mb-3"><label class="form-label">Phone Number <span class="required">*</span></label><input class="form-control" name="PhoneNumber" required /></div>
-					<div class="mb-3"><label class="form-label">Address <span class="required">*</span></label><textarea class="form-control" name="Address" rows="2"></textarea></div>
-					<div class="mb-3"><label class="form-label">Country <span class="required">*</span></label><input class="form-control" name="Country" required /></div>
-					<div class="mb-3"><label class="form-label">City <span class="required">*</span></label><input class="form-control" name="City" required /></div>
-					<div class="mb-3"><label class="form-label">Postcode <span class="required">*</span></label><input class="form-control" name="Postcode" required /></div>
-					<div class="mb-3"><label class="form-label">State <span class="required">*</span></label><input class="form-control" name="State" required /></div>
-					<div class="mb-3"><label class="form-label">Occupation <span class="required">*</span></label><input class="form-control" name="Occupation" required /></div>
-					<div class="mb-3"><label class="form-label">Approver Name</label><input class="form-control" name="ApproverName" required /></div>
-					<div class="mb-3"><label class="form-label">Password <span class="required">*</span></label><input type="password" class="form-control" name="Password" required /></div>
-					<div class="mb-3"><label class="form-label">Re-type Password <span class="required">*</span></label><input type="password" class="form-control" name="RePassword" required /></div>
-					<div class="mb-3"><label class="form-label">Upload Documents</label><input class="form-control" type="file" name="Documents[]" multiple /></div>
-					<div class="form-check mb-3"><input class="form-check-input" type="checkbox" name="Agree" required><label class="form-check-label">I agree to the Terms and Conditions</label></div>
+					<div class="mb-3">
+						<label class="form-label">Email <span class="required">*</span></label>
+						<input asp-for="User.Email" type="email" class="form-control" required />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">ID Type <span class="required">*</span></label>
+						<select asp-for="User.IDType" class="form-select" required>
+							<option>MyKad</option>
+							<option>Passport</option>
+						</select>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">ID Number <span class="required">*</span></label>
+						<input asp-for="User.IDNumber" class="form-control" required />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Country Phone Prefix <span class="required">*</span></label>
+						<input asp-for="User.PhonePrefix" class="form-control" value="+60" required />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Phone Number <span class="required">*</span></label>
+						<input asp-for="User.PhoneNumber" class="form-control" required />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Address <span class="required">*</span></label>
+						<textarea asp-for="User.Address" class="form-control" rows="2" required></textarea>
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Country <span class="required">*</span></label>
+						<input asp-for="User.Country" class="form-control" required />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">City <span class="required">*</span></label>
+						<input asp-for="User.City" class="form-control" required />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Postcode <span class="required">*</span></label>
+						<input asp-for="User.Postcode" class="form-control" required />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">State <span class="required">*</span></label>
+						<input asp-for="User.State" class="form-control" required />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Occupation <span class="required">*</span></label>
+						<input asp-for="User.Occupation" class="form-control" required />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Approver Name</label>
+						<input asp-for="User.ApproverName" class="form-control" />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Password <span class="required">*</span></label>
+						<input asp-for="User.Password" type="password" class="form-control" required />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Re-type Password <span class="required">*</span></label>
+						<input asp-for="User.RePassword" type="password" class="form-control" required />
+					</div>
+
+					<div class="mb-3">
+						<label class="form-label">Upload Documents</label>
+						<input asp-for="User.Documents" class="form-control" type="file" multiple />
+					</div>
+
+					<div class="form-check mb-3">
+						<input asp-for="User.Agree" class="form-check-input" type="checkbox" required />
+						<label class="form-check-label">I agree to the Terms and Conditions</label>
+					</div>
 
 					<button class="btn btn-secondary w-100 mb-2" type="button" onclick="nextStep(2)">Back</button>
 					<button class="btn btn-success w-100" type="submit">Submit</button>

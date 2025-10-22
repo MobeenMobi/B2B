@@ -33,7 +33,7 @@
 				<button class="nav-link" id="step3-tab" data-bs-toggle="pill" data-bs-target="#step3" type="button" role="tab">● Person In Charge</button>
 			</li>
 		</ul>
-		<form method="post" action="/Home/Register" enctype="multipart/form-data">
+		<form method="post" action="/Account/Register" enctype="multipart/form-data">
 			<div class="tab-content" id="pills-tabContent">
 				<div class="tab-pane fade show active" id="step1" role="tabpanel">
 					<div class="mb-3">
@@ -101,7 +101,7 @@
 					</div>
 
 					<div class="mb-3">
-						<label>Phone No.</label>
+						<label>Phone No <span class="required">*</span></label>
 						<input asp-for="Company.PhoneNo" class="form-control" required />
 					</div>
 
@@ -219,9 +219,9 @@
 						<label class="form-label">Nationality <span class="required">*</span></label>
 						<select asp-for="User.Nationality" class="form-control" required>
 							<option value="">Select nationality...</option>
-							<option>Malaysia</option>
-							<option>Pakistan</option>
-							<option>India</option>
+							<option value="MY">Malaysia</option>
+							<option value="PK">Pakistan</option>
+							<option value="IN">India</option>
 						</select>
 					</div>
 					<div class="mb-3">
@@ -255,11 +255,6 @@
 					<div class="mb-3">
 						<label class="form-label">ID Number <span class="required">*</span></label>
 						<input asp-for="User.IDNumber" class="form-control" required />
-					</div>
-
-					<div class="mb-3">
-						<label class="form-label">Country Phone Prefix <span class="required">*</span></label>
-						<input asp-for="User.PhonePrefix" class="form-control" value="+60" required />
 					</div>
 
 					<div class="mb-3">
@@ -309,12 +304,12 @@
 
 					<div class="mb-3">
 						<label class="form-label">Re-type Password <span class="required">*</span></label>
-						<input asp-for="User.RePassword" type="password" class="form-control" required />
+						<input type="password" class="form-control" required />
 					</div>
 
 					<div class="mb-3">
 						<label class="form-label">Upload Documents</label>
-						<input asp-for="User.Documents" class="form-control" type="file" multiple />
+						<input asp-for="DocumentUpload.Documents" class="form-control" type="file" multiple />
 					</div>
 
 					<div class="form-check mb-3">

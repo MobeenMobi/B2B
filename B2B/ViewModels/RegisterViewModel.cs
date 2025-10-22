@@ -7,5 +7,7 @@ namespace B2B.ViewModels
         public CompanyInfo Company { get; set; }
         public BankInfo Bank { get; set; }
         public UserInfo User { get; set; }
+        public Documents DocumentUpload { get; set; }
+
     }
 }

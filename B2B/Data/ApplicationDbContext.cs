@@ -12,5 +12,11 @@ namespace B2B.Data
 
         // Example table
         public DbSet<Users> Users { get; set; }
+        public DbSet<UserLogins> UserLogins { get; set; }
+        public DbSet<Documents> Documents { get; set; }
+        public DbSet<CompanyInfo> CompanyInfo { get; set; }
+        public DbSet<BankInfo> BankInfo { get; set; }
+
+
     }
 }

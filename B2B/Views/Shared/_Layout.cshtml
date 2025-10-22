@@ -1,7 +1,7 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    var userName = HttpContextAccessor.HttpContext.Session.GetString("UserName") ?? "Guest";
+    var userName = HttpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
 }
 
 
@@ -19,8 +19,9 @@
         </div>
         <div>
             Logged in as: <strong>@userName</strong>
-            | <a href="/Home/Logout" class="text-decoration-none">Logout</a>
+            | <a href="/Login/Logout" class="text-decoration-none">Logout</a>
         </div>
+
     </header>
 
     <main class="flex-fill px-4">

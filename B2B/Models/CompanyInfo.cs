@@ -1,7 +1,13 @@
-﻿namespace B2B.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace B2B.Models
 {
     public class CompanyInfo
     {
+        [Key]
+        public int Id { get; set; }
+        public int UserId { get; set; }
         public string CompanyName { get; set; }
         public string RegistrationNumber { get; set; }
         public DateTime DateOfIncorporation { get; set; }
@@ -18,5 +24,6 @@
         public string Postcode { get; set; }
         public string State { get; set; }
         public string Country { get; set; } = "Malaysia";
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

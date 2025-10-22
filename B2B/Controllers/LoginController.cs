@@ -41,8 +41,15 @@ namespace B2B.Controllers
                 return View();
             }
 
-            var Firstname = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.FirstName).FirstOrDefault();
 
+            var Firstname = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.FirstName).FirstOrDefault();
+            bool KYBStatus = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.IsKYBApproved).FirstOrDefault();
+
+            if (!KYBStatus)
+            {
+                ViewBag.Error = "KYB not approved yet. Please wait for approval.";
+                return View();
+            }
             string otp = GenerateSecureOtp();
             TempData["OTP"] = otp;
             TempData["OtpExpiry"] = DateTime.Now.AddMinutes(5);
@@ -58,21 +65,6 @@ namespace B2B.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult VerifyOtp(string otp)
-        //{
-        //    string storedOtp = TempData["OTP"]?.ToString();
-        //    DateTime expiry = Convert.ToDateTime(TempData["OtpExpiry"]);
-
-        //    if (storedOtp == null || DateTime.Now > expiry)
-        //        return Content("OTP expired. Please request again.");
-
-        //    if (otp == storedOtp)
-        //        return RedirectToAction("Dashboard", "Account");
-
-        //    TempData.Keep(); // keep OTP alive for re-entry
-        //    return Content("Invalid OTP. Try again.");
-        //}
 
         [HttpPost]
         public async Task<IActionResult> VerifyOtp(string otp)

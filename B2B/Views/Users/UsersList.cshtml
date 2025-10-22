@@ -1,0 +1,37 @@
+﻿@model IEnumerable<B2B.Models.Users>;
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Nationality</th>
+            <th>DOB</th>
+            <th>Gender</th>
+            <th>Phone</th>
+            <th>Country</th>
+            <th>KYB Approved?</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.FirstName @user.LastName</td>
+                <td>@user.Nationality</td>
+                <td>@user.DateOfBirth.ToString("yyyy-MM-dd")</td>
+                <td>@user.Gender</td>
+                <td>@user.PhoneNumber</td>
+                <td>@user.Country</td>
+                <td>@(user.IsKYBApproved ? "✅ Yes" : "❌ No")</td>
+                <td>
+                    <a href="/User/Edit/@user.Id" class="btn btn-sm btn-warning">Approve</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

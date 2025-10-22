@@ -37,6 +37,7 @@ namespace B2B.Controllers
             if (user == null)
             {
                 ViewBag.Error = "Invalid email or password.";
+                
                 return View();
             }
 

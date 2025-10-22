@@ -58,3 +58,5 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\uploads\6bfb4566-e26a-484a-b62f-bc9d068e3cd8.xlsx
+wwwroot\uploads\cd3a5659-ea6b-46b0-8bc3-50c42b1d5ca9.docx

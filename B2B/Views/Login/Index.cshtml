@@ -28,6 +28,10 @@
                 {
                     <div class="alert alert-danger">@ViewBag.Error</div>
                 }
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-success">@ViewBag.Message</div>
+                }
                 <form method="Post" action="/Login/Index">
                     <div class="mb-3">
                         <label class="text-white">Email</label>

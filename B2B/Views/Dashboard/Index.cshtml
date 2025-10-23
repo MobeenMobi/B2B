@@ -38,9 +38,8 @@
 </head>
 <body class="bg-light">
 
-    <div class="d-flex">
         <!-- Sidebar -->
-        <nav class="sidebar d-flex flex-column p-2">
+@*         <nav class="sidebar d-flex flex-column p-2">
             <h5 class="px-2" style="text-align:center">B2B</h5>
             <ul class="nav nav-pills flex-column mb-auto">
 
@@ -95,21 +94,20 @@
                     <a class="nav-link" href="#">Transaction History</a>
                 </li>
             </ul>
-        </nav>
+        </nav> *@
 
         <!-- Main content -->
-        <div class="flex-grow-1 p-4" >
-            <div class="card shadow-sm p-3 mb-4" style="width: 250px; background-color:#89CFF0; color:white;">
-                <div class="d-flex justify-content-between align-items-center">
-                    <span class="fw-bold">Balance</span>
-                    <span class="badge bg-primary">MYR</span>
+            <div class="flex-grow-1 p-4">
+                <div class="card shadow-sm p-3 mb-4" style="width: 250px; background-color:#89CFF0; color:white;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fw-bold">Balance</span>
+                        <span class="badge bg-primary">MYR</span>
+                    </div>
+                    <h3 class="mt-3 mb-1 fw-bold">1,250.00</h3>
+                    <p class="mb-0" style="font-size: 14px;">Available Balance</p>
                 </div>
-                <h3 class="mt-3 mb-1 fw-bold">1,250.00</h3>  @* <-- Replace with your balance *@
-                <p class=" mb-0" style="font-size: 14px;">Available Balance</p>
             </div>
 
-        </div>
-    </div>
 
     <!-- Bootstrap JS (bundle includes Popper) -->
 @*     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script> *@
@@ -119,16 +117,3 @@
 </body>
 </html>
 
-@section Scripts {
-    <script>
-        document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(btn => {
-            const target = document.querySelector(btn.getAttribute('href'));
-            const chev = btn.querySelector('.chev');
-
-            // update chevron on shown/hidden
-            target.addEventListener('shown.bs.collapse', () => chev.classList.add('rotate'));
-            target.addEventListener('hidden.bs.collapse', () => chev.classList.remove('rotate'));
-        });
-
-    </script>
-}

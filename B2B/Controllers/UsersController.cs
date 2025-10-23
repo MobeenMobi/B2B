@@ -34,7 +34,7 @@ namespace B2B.Controllers
             user.IsKYBApproved = true;
             _context.SaveChanges();
 
-            return RedirectToAction("UserList");
+            return RedirectToAction("UsersList");
         }
 
 

@@ -4722,26 +4722,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\InnoTech\\.nuget\\packages\\": {},
-    "C:\\Program Files\\DevExpress 23.1\\Components\\Offline Packages": {},
+    "C:\\Users\\Sheikh Mobeen Ahmad\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\B2B\\B2B\\B2B.csproj",
+      "projectUniqueName": "C:\\Users\\Sheikh Mobeen Ahmad\\Desktop\\B2B\\B2B\\B2B.csproj",
       "projectName": "B2B",
-      "projectPath": "E:\\B2B\\B2B\\B2B.csproj",
-      "packagesPath": "C:\\Users\\InnoTech\\.nuget\\packages\\",
-      "outputPath": "E:\\B2B\\B2B\\obj\\",
+      "projectPath": "C:\\Users\\Sheikh Mobeen Ahmad\\Desktop\\B2B\\B2B\\B2B.csproj",
+      "packagesPath": "C:\\Users\\Sheikh Mobeen Ahmad\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Sheikh Mobeen Ahmad\\Desktop\\B2B\\B2B\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\DevExpress 23.1\\Components\\Offline Packages",
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\InnoTech\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 23.1.config",
+        "C:\\Users\\Sheikh Mobeen Ahmad\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4750,7 +4747,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\DevExpress 23.1\\Components\\System\\Components\\Packages": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4768,8 +4765,7 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      },
-      "SdkAnalysisLevel": "9.0.300"
+      }
     },
     "frameworks": {
       "net8.0": {
@@ -4809,7 +4805,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

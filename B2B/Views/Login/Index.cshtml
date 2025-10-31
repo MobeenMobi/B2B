@@ -28,7 +28,11 @@
                 {
                     <div class="alert alert-danger">@ViewBag.Error</div>
                 }
-                <form method="get" action="/Home/Index">
+                @if (ViewBag.Message != null)
+                {
+                    <div class="alert alert-success">@ViewBag.Message</div>
+                }
+                <form method="Post" action="/Login/Index">
                     <div class="mb-3">
                         <label class="text-white">Email</label>
                         <input type="email" name="Email" class="form-control bg-transparent text-white border-white" required />
@@ -38,7 +42,7 @@
                         <input type="password" name="Password" class="form-control bg-transparent text-white border-white" required />
                     </div>
                     <button type="submit" class="btn btn-outline-light w-100 fw-bold">Login</button>
-                    <a href="/Home/Register" class="d-block text-center mt-3 text-white">Register</a>
+                    <a href="/Account/Register" class="d-block text-center mt-3 text-white">Register</a>
                 </form>
             </div>
 

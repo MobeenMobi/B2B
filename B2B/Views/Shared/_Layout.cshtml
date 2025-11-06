@@ -1,8 +1,13 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 
 @{
-    var userName = HttpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
+    var userName = "";
+    if (HttpContextAccessor?.HttpContext?.Session != null)
+    {
+        userName = HttpContextAccessor.HttpContext.Session.GetString("UserName") ?? "";
+    }
 }
+
 
 <!DOCTYPE html>
 <html>
@@ -60,14 +65,14 @@
                 <li>
                     <a class="nav-link d-flex justify-content-between align-items-center"
                        data-bs-toggle="collapse"
-                       href="#collapseProducts"
+                       href="#collapseAccounts"
                        role="button"
                        aria-expanded="false"
-                       aria-controls="collapseProducts">
+                       aria-controls="collapseAccounts">
                         Accounts
                         <span class="chev">▾</span>
                     </a>
-                    <div class="collapse" id="collapseProducts">
+                    <div class="collapse" id="collapseAccounts">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             <li><a href="#" class="nav-link ps-4">Account Statement</a></li>
                             <li><a href="#" class="nav-link ps-4">Daily Balance</a></li>
@@ -78,16 +83,16 @@
                 <li>
                     <a class="nav-link d-flex justify-content-between align-items-center"
                        data-bs-toggle="collapse"
-                       href="#collapseProducts"
+                       href="#collapsePayments"
                        role="button"
                        aria-expanded="false"
-                       aria-controls="collapseProducts">
+                       aria-controls="collapsePayments">
                         Send
                         <span class="chev">▾</span>
                     </a>
-                    <div class="collapse" id="collapseProducts">
+                    <div class="collapse" id="collapsePayments">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="#" class="nav-link ps-4">Single Payment</a></li>
+                            <li><a href="/Transaction/SinglePayment" class="nav-link ps-4">Single Payment</a></li>
                             <li><a href="#" class="nav-link ps-4">Bulk Payment</a></li>
                             <li><a href="#" class="nav-link ps-4">Account Funding</a></li>
                         </ul>
@@ -128,7 +133,7 @@
             }
             else
             {
-                @RenderSection("PageContent")
+                @RenderSection("PageContent", required: false)
             }
         </main>
     </div>

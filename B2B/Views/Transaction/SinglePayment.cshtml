@@ -1,0 +1,206 @@
+﻿@model B2B.ViewModels.BusinessPaymentViewModel
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "B2B Payment";
+    var payeeName = HttpContextAccessor?.HttpContext?.Session?.GetString("UserName") ?? "Your Company";
+}
+
+@section PageContent {
+    <div class="container mt-4">
+
+        <form asp-action="SubmitBusinessPayment" method="post" enctype="multipart/form-data">
+            <div class="row g-4">
+                <!-- LEFT COLUMN -->
+                <div class="col-md-7">
+
+                    <!-- PAYEE INFO -->
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-secondary">Payee Details</h5>
+                            <hr />
+                            <div class="mb-3">
+                                <label class="form-label">Payee Name</label>
+                                <input type="text" class="form-control" value="@payeeName" readonly />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RECIPIENT INFO -->
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-secondary">Recipient Details</h5>
+                            <hr />
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="RecipientName" class="form-label">Recipient Name / Company</label>
+                                    <input asp-for="RecipientName" class="form-control" />
+                                    <span asp-validation-for="RecipientName" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="RecipientEmail" class="form-label">Recipient Email</label>
+                                    <input asp-for="RecipientEmail" class="form-control" />
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="RecipientCountry" class="form-label">Country</label>
+                                    <input asp-for="RecipientCountry" class="form-control" />
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="RecipientAddress" class="form-label">Address</label>
+                                    <input asp-for="RecipientAddress" class="form-control" />
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="RecipientBankName" class="form-label">Bank Name</label>
+                                    <input asp-for="RecipientBankName" class="form-control" />
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="RecipientBankCountry" class="form-label">Bank Country</label>
+                                    <input asp-for="RecipientBankCountry" class="form-control" />
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="RecipientAccountNumber" class="form-label">Account Number / IBAN</label>
+                                    <input asp-for="RecipientAccountNumber" class="form-control" />
+                                    <span asp-validation-for="RecipientAccountNumber" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="RecipientSwiftCode" class="form-label">SWIFT / BIC Code</label>
+                                    <input asp-for="RecipientSwiftCode" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAYMENT INFO -->
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title text-secondary">Payment Details</h5>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Currency" class="form-label">Currency</label>
+                                    <input asp-for="Currency" class="form-control" value="MYR" />
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="AmountDue" class="form-label">Amount</label>
+                                    <input asp-for="AmountDue" id="amountInput" class="form-control" type="number" step="0.01" />
+                                    <span asp-validation-for="AmountDue" class="text-danger"></span>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="Fee" class="form-label">Fee</label>
+                                    <input asp-for="Fee" id="feeInput" class="form-control" type="number" step="0.01" />
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="FxRate" class="form-label">FX Rate</label>
+                                    <input asp-for="FxRate"  class="form-control" type="number" step="0.0001" />
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="DueDate" class="form-label">Payment Due Date</label>
+                                    <input asp-for="DueDate" class="form-control" type="date" />
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="PaymentDescription" class="form-label">Payment Description</label>
+                                    <input asp-for="PaymentDescription" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="InvoiceFile" class="form-label">Attach Invoice (optional)</label>
+                                <input asp-for="InvoiceFile" type="file" class="form-control" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div class="col-md-5">
+                    <div class="card shadow-sm sticky-top" style="top: 1rem;">
+                        <div class="card-body">
+                            <h5 class="card-title text-secondary">Payment Summary</h5>
+                            <hr />
+
+                            <dl class="row mb-0">
+                                <dt class="col-6">Payee</dt>
+                                <dd class="col-6 text-end">@payeeName</dd>
+
+                                <dt class="col-6">Recipient</dt>
+                                <dd class="col-6 text-end" id="summaryRecipient">-</dd>
+
+                                <dt class="col-6">Currency</dt>
+                                <dd class="col-6 text-end" id="summaryCurrency">MYR</dd>
+
+                                <dt class="col-6">Amount</dt>
+                                <dd class="col-6 text-end"><span id="summaryAmount">0.00</span> <span id="summaryCurrency2">MYR</span></dd>
+
+                                <dt class="col-6">Fee</dt>
+                                <dd class="col-6 text-end"><span id="summaryFee">0.00</span> <span id="summaryCurrency3">MYR</span></dd>
+
+                                <dt class="col-6">Total</dt>
+                                <dd class="col-6 text-end fw-bold text-success">
+                                    <span id="summaryTotal">0.00</span> <span id="summaryCurrencyTotal">MYR</span>
+                                </dd>
+                            </dl>
+
+
+                            <div class="d-grid mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg">Submit Payment</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+<script>
+    const amountInput = document.getElementById('amountInput');
+    const feeInput = document.getElementById('feeInput');
+    const recipientName = document.querySelector('[name="RecipientName"]');
+    const currencySelect = document.getElementById('currencySelect');
+
+    const summaryRecipient = document.getElementById('summaryRecipient');
+    const summaryAmount = document.getElementById('summaryAmount');
+    const summaryFee = document.getElementById('summaryFee');
+    const summaryTotal = document.getElementById('summaryTotal');
+    const summaryCurrency = document.getElementById('summaryCurrency');
+    const summaryCurrency2 = document.getElementById('summaryCurrency2');
+    const summaryCurrency3 = document.getElementById('summaryCurrency3');
+    const summaryCurrencyTotal = document.getElementById('summaryCurrencyTotal');
+
+    function updateSummary() {
+        const amount = parseFloat(amountInput.value) || 0;
+        const fee = parseFloat(feeInput.value) || 0;
+        const total = amount + fee;
+        const currency = currencySelect.value || "";
+
+        summaryRecipient.textContent = recipientName.value || "-";
+        summaryAmount.textContent = amount.toFixed(2);
+        summaryFee.textContent = fee.toFixed(2);
+        summaryTotal.textContent = total.toFixed(2);
+        summaryCurrency.textContent = currency;
+        summaryCurrency2.textContent = currency;
+        summaryCurrency3.textContent = currency;
+        summaryCurrencyTotal.textContent = currency;
+    }
+
+    [amountInput, feeInput, recipientName, currencySelect].forEach(el => {
+        el.addEventListener('input', updateSummary);
+    });
+
+    updateSummary(); // initialize
+</script>
+
+}

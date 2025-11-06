@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using B2B.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace B2B.Controllers
 {
@@ -10,5 +11,11 @@ namespace B2B.Controllers
         }
 
 
+        public IActionResult SinglePayment()
+        {
+            BusinessPaymentViewModel model = new BusinessPaymentViewModel();
+
+            return View(model);
+        }
     }
 }

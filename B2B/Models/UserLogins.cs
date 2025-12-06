@@ -13,6 +13,8 @@ namespace B2B.Models
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? LastLogin { get; set; }
         public bool IsActive { get; set; } = true;
-
+        public string Role { get; set; }
+        public string OTP { get; set; }
+        public DateTime OTPCreatedAt { get; set; }
     }
 }

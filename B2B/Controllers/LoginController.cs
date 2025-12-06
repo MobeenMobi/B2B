@@ -1,12 +1,13 @@
-﻿using System.Security.Claims;
-using System.Security.Cryptography;
-using B2B.Data;
+﻿using B2B.Data;
 using B2B.EmailService;
 using B2B.Models;
 using B2B.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace B2B.Controllers
 {
@@ -53,6 +54,12 @@ namespace B2B.Controllers
             string otp = GenerateSecureOtp();
             TempData["OTP"] = otp;
             TempData["OtpExpiry"] = DateTime.Now.AddMinutes(5);
+
+            user.OTP = otp;
+            user.OTPCreatedAt = DateTime.Now;
+            
+            _context.Entry(user).State = EntityState.Modified;
+            _context.SaveChanges();
 
             HttpContext.Session.SetString("UserName", Firstname);
 

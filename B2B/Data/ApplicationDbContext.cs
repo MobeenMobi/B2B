@@ -17,6 +17,7 @@ namespace B2B.Data
         public DbSet<CompanyInfo> CompanyInfo { get; set; }
         public DbSet<BankInfo> BankInfo { get; set; }
         public DbSet<Payments> Payments { get; set; }
+        public DbSet<RemittanceDetail> RemittanceDetail { get; set; }
 
 
     }

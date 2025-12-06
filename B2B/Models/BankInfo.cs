@@ -11,6 +11,9 @@ namespace B2B.Models
         public string Bank { get; set; }
         public string AccountHolder { get; set; }
         public string AccountNumber { get; set; }
+        public decimal AverageAnnualTrunover { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+        public virtual ICollection<RemittanceDetail> RemittanceDetails { get; set; } = new List<RemittanceDetail>();
     }
 }

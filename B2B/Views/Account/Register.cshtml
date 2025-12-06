@@ -58,13 +58,21 @@
 
 					<div class="mb-3">
 						<label>Business / Industry Type <span class="required">*</span></label>
-						<select asp-for="Company.BusinessType" class="form-control" required>
+						<select asp-for="Company.BusinessType" id="businessTypeSelect" class="form-control" required>
+							<option value="">Please Select Business / Industry Type</option>
 							<option value="NGO (Association/Club/Society)">MY - NGO (Association/Club/Society)</option>
 							<option value="Partnership (2 to 20 Owners)">MY - Partnership (2 to 20 Owners)</option>
 							<option value="Private Limited (Sdn. Bhd. Corporation)">MY - Private Limited (Sdn. Bhd. Corporation)</option>
 							<option value="Public Listed Corporation">MY – State Owned Corporation & Public Listed Company</option>
 							<option value="Sole Proprietorship (One Owner)">MY - Sole Proprietorship (One Owner)</option>
 						</select>
+					</div>
+
+					<div id="businessTypeDocs" class="mt-3 p-3 border rounded" style="display:none; background-color:#89CFF0;"></div>
+
+					<div class="mb-3">
+						<label class="form-label">Upload Documents</label>
+						<input asp-for="DocumentUpload.Documents" class="form-control" type="file" multiple />
 					</div>
 
 					<div class="mb-3">
@@ -193,6 +201,29 @@
 					</div>
 					<div class="mb-3"><label>Bank Account Holder Name <span class="required">*</span></label><input asp-for="Bank.AccountHolder" class="form-control" required /></div>
 					<div class="mb-3"><label>Bank Account Number <span class="required">*</span></label><input asp-for="Bank.AccountNumber" class="form-control" required /></div>
+					<div class="mb-3">
+						<label>Remittance Details <span class="required">*</span></label>
+						<table class="table table-bordered" id="remitTable">
+							<thead>
+								<tr>
+									<th>No.</th>
+									<th>Country Name <span class="required"></span></th>
+									<th>Purpose of Remit <span class="required"></span></th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td><input name="Bank.RemittanceDetails[0].CountryName" class="form-control" required /></td>
+									<td><input name="Bank.RemittanceDetails[0].PurposeOfRemit" class="form-control" required /></td>
+									<td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
+								</tr>
+							</tbody>
+						</table>
+						<button type="button" class="btn btn-success btn-sm" onclick="addRow()">Add Row</button>
+					</div>
+
 					<button class="btn btn-secondary w-100 mb-2" type="button" onclick="validateStep(2,1)">Back</button>
 					<button class="btn btn-primary w-100" type="button" onclick="validateStep(2, 3)">Next</button>
 				</div>
@@ -312,11 +343,6 @@
 						<input type="password" class="form-control" required />
 					</div>
 
-					<div class="mb-3">
-						<label class="form-label">Upload Documents</label>
-						<input asp-for="DocumentUpload.Documents" class="form-control" type="file" multiple />
-					</div>
-
 					<div class="form-check mb-3">
 						<input asp-for="User.Agree" class="form-check-input" type="checkbox" required />
 						<label class="form-check-label">I agree to the Terms and Conditions</label>
@@ -329,6 +355,7 @@
 		</form>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<script>
 		function validateStep(currentStep, nextStep) {
 			let isValid = true;
@@ -351,7 +378,104 @@
 				window.scrollTo({ top: 0, behavior: "smooth" });
 			}
 		}
+		$(document).ready(function() {
+
+			$('#businessTypeSelect').on('change', function() {
+				var type = $(this).val();
+				var html = '';
+
+				switch(type) {
+
+					case "Private Limited (Sdn. Bhd. Corporation)":
+						html = `
+						<b>Required Documents</b>
+						<ol>
+							<li>Memorandum & Article of Association (M&A)</li>
+							<li>Form 9 – Certificate of Incorporation or equivalent official document</li>
+							<li>Latest Form 24 or equivalent official document</li>
+							<li>Latest Form 49 or equivalent official document</li>
+							<li>NRIC / Passport Copy of Director(s) or Shareholder(s)</li>
+							<li>NRIC / Passport Copy of Authorized person</li>
+							<li>Authorization Form</li>
+						</ol>`;
+						break;
+
+					case "Sole Proprietorship (One Owner)":
+					case "Partnership (2 to 20 Owners)":
+						html = `
+						<b>Required Documents</b>
+						<ol>
+							<li>Form D – Certificate of Registration or equivalent official document</li>
+							<li>NRIC / Passport Copy of Owner’s / Partner’s</li>
+							<li>NRIC / Passport Copy of Authorized Person</li>
+							<li>Authorization Form</li>
+						</ol>`;
+						break;
+
+					case "Public Listed Corporation":
+						html = `
+						<b>Required Documents</b>
+						<ol>
+							<li>Authorization Form</li>
+							<li>NRIC / Passport Copy of Authorized Person</li>
+							<li>NRIC / Passport Copy of Key Responsible Person</li>
+						</ol>`;
+						break;
+
+					case "NGO (Association/Club/Society)":
+						html = `
+						<b>Required Documents</b>
+						<ol>
+							<li>Certificate of Registration or equivalent official document</li>
+							<li>Copy of the entity's latest Constitution, Rules & Regulations, or By-Laws</li>
+							<li>List of Governing body members on Organization’s letter head</li>
+							<li>NRIC / Passport Copy of Governing / Committee members</li>
+							<li>NRIC / Passport Copy of Authorized person</li>
+							<li>Authorization Form</li>
+						</ol>`;
+						break;
+
+					default:
+						html = '';
+				}
+
+				if(html !== '') {
+					$('#businessTypeDocs').html(html).show();
+				} else {
+					$('#businessTypeDocs').hide();
+				}
+			});
+
+		});
+		function addRow() {
+			const table = document.getElementById("remitTable").getElementsByTagName('tbody')[0];
+			const rowCount = table.rows.length;
+
+			const row = table.insertRow(rowCount);
+			row.innerHTML = `
+				<td>${rowCount + 1}</td>
+				<td><input name="Bank.RemittanceDetails[${rowCount}].CountryName" class="form-control" required /></td>
+				<td><input name="Bank.RemittanceDetails[${rowCount}].PurposeOfRemit" class="form-control" required /></td>
+				<td><button type="button" class="btn btn-danger btn-sm" onclick="removeRow(this)">Remove</button></td>
+			`;
+		}
+
+		function removeRow(button) {
+			const row = button.closest('tr');
+			row.parentNode.removeChild(row);
+
+			// Re-index remaining rows
+			const table = document.getElementById("remitTable").getElementsByTagName('tbody')[0];
+			Array.from(table.rows).forEach((r, i) => {
+				r.cells[0].innerText = i + 1;
+				r.cells[1].querySelector('input').setAttribute('name', `Bank.RemittanceDetails[${i}].CountryName`);
+				r.cells[2].querySelector('input').setAttribute('name', `Bank.RemittanceDetails[${i}].PurposeOfRemit`);
+			});
+		}
+
+
 
 	</script>
+
 </body>
 </html>

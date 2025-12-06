@@ -1,9 +1,10 @@
-﻿using System.Security.Cryptography;
-using B2B.Data;
+﻿using B2B.Data;
 using B2B.EmailService;
 using B2B.Models;
 using B2B.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata;
+using System.Security.Cryptography;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace B2B.Controllers
@@ -32,7 +33,6 @@ namespace B2B.Controllers
             {
                 var user = new Users
                 {
-                    ControlOption = model.User.ControlOption,
                     FirstName = model.User.FirstName,
                     MiddleName = model.User.MiddleName,
                     LastName = model.User.LastName,
@@ -88,6 +88,26 @@ namespace B2B.Controllers
                 _context.BankInfo.Add(bank);
                 _context.SaveChanges();
 
+                var latestBankId = _context.BankInfo
+                    .OrderByDescending(b => b.Id)
+                    .Select(b => b.Id)
+                    .FirstOrDefault();
+
+                if (model.Bank.RemittanceDetails != null)
+                {
+                    foreach (var item in model.Bank.RemittanceDetails)
+                    {
+                        var RemittanceDetails = new RemittanceDetail
+                        {
+                            BankInfoId = latestBankId,
+                            CountryName = item.CountryName,
+                            PurposeOfRemit = item.PurposeOfRemit,
+                            CreatedAt = DateTime.Now
+                        };
+                        _context.RemittanceDetail.Add(RemittanceDetails);
+                        _context.SaveChanges();
+                    }
+                }
 
                 if (model.DocumentUpload.Documents != null)
                 {

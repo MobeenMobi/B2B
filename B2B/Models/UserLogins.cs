@@ -10,7 +10,7 @@ namespace B2B.Models
         public int UserId { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? LastLogin { get; set; }
         public bool IsActive { get; set; } = true;
         public string Role { get; set; }

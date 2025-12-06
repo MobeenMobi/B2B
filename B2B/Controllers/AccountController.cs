@@ -82,7 +82,9 @@ namespace B2B.Controllers
                     UserId = latestUserId,
                     Bank = model.Bank.Bank,
                     AccountHolder = model.Bank.AccountHolder,
-                    AccountNumber = model.Bank.AccountNumber
+                    AccountNumber = model.Bank.AccountNumber,
+                    AverageAnnualTrunover = model.Bank.AverageAnnualTrunover
+                    
                 };
 
                 _context.BankInfo.Add(bank);
@@ -134,7 +136,7 @@ namespace B2B.Controllers
                             DocumentName = file.FileName,
                             DocumentPath = "/wwwroot/uploads/" + uniqueFileName,
                             DocumentType = file.ContentType,
-                            UploadDate = DateTime.UtcNow
+                            UploadDate = DateTime.Now
                         };
 
                         _context.Documents.Add(document);
@@ -147,7 +149,7 @@ namespace B2B.Controllers
                     UserId = latestUserId,
                     Email = model.User.Email,
                     PasswordHash = model.User.Password,
-                    CreatedAt = DateTime.UtcNow,
+                    CreatedAt = DateTime.Now,
                     IsActive = true
                 };
 

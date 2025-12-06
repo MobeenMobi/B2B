@@ -345,7 +345,11 @@
 
 					<div class="form-check mb-3">
 						<input asp-for="User.Agree" class="form-check-input" type="checkbox" required />
-						<label class="form-check-label">I agree to the Terms and Conditions</label>
+@* 						<label class="form-check-label">I agree to the Terms and Conditions</label> *@
+						<label class="form-check-label">
+							I agree to the
+							<a href="@Url.Content("~/files/TermsAndConditions.docx")" class="small" target="_blank">Terms and Conditions</a>
+						</label>
 					</div>
 
 					<button class="btn btn-secondary w-100 mb-2" type="button" onclick="nextStep(3,2)">Back</button>

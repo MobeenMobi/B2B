@@ -20,11 +20,7 @@
         {
             <tr>
                 <td>@user.FirstName @user.LastName</td>
-                <td>@user.Nationality</td>
-                <td>@user.DateOfBirth.ToString("yyyy-MM-dd")</td>
-                <td>@user.Gender</td>
                 <td>@user.PhoneNumber</td>
-                <td>@user.Country</td>
                 <td>@(user.IsKYBApproved ? "✅ Yes" : "❌ No")</td>
                     @if(user.IsKYBApproved == true)
                     {

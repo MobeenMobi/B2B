@@ -52,12 +52,17 @@
 					</div>
 
 					<div class="mb-3">
+						<label>Location of Incorporation <span class="required">*</span></label>
+						<input asp-for="Company.LocationOfIncorporation" class="form-control" required />
+					</div>
+
+					<div class="mb-3">
 						<label>Business / Industry Type <span class="required">*</span></label>
 						<select asp-for="Company.BusinessType" class="form-control" required>
 							<option value="NGO (Association/Club/Society)">MY - NGO (Association/Club/Society)</option>
 							<option value="Partnership (2 to 20 Owners)">MY - Partnership (2 to 20 Owners)</option>
 							<option value="Private Limited (Sdn. Bhd. Corporation)">MY - Private Limited (Sdn. Bhd. Corporation)</option>
-							<option value="Public Listed Corporation">MY - Public Listed Corporation</option>
+							<option value="Public Listed Corporation">MY – State Owned Corporation & Public Listed Company</option>
 							<option value="Sole Proprietorship (One Owner)">MY - Sole Proprietorship (One Owner)</option>
 						</select>
 					</div>
@@ -87,12 +92,12 @@
 
 					<div class="mb-3">
 						<label>Short Business Description <span class="required">*</span></label>
-						<input asp-for="Company.ShortBusinessDescription" class="form-control" placeholder="eg: Hajo Agent" />
+						<input asp-for="Company.ShortBusinessDescription" class="form-control" placeholder="eg: Hajo Agent" required/>
 					</div>
 
 					<div class="mb-3">
-						<label>Company Email</label>
-						<input asp-for="Company.CompanyEmail" class="form-control" />
+						<label>Company Email <span class="required">*</span></label>
+						<input asp-for="Company.CompanyEmail" class="form-control" required/>
 					</div>
 
 					<div class="mb-3">
@@ -188,7 +193,7 @@
 					</div>
 					<div class="mb-3"><label>Bank Account Holder Name <span class="required">*</span></label><input asp-for="Bank.AccountHolder" class="form-control" required /></div>
 					<div class="mb-3"><label>Bank Account Number <span class="required">*</span></label><input asp-for="Bank.AccountNumber" class="form-control" required /></div>
-					<button class="btn btn-secondary w-100 mb-2" type="button" onclick="nextStep(1)">Back</button>
+					<button class="btn btn-secondary w-100 mb-2" type="button" onclick="validateStep(2,1)">Back</button>
 					<button class="btn btn-primary w-100" type="button" onclick="validateStep(2, 3)">Next</button>
 				</div>
 				<div class="tab-pane fade" id="step3" role="tabpanel">
@@ -288,7 +293,7 @@
 					</div>
 
 					<div class="mb-3">
-						<label class="form-label">Occupation <span class="required">*</span></label>
+						<label class="form-label">Designation <span class="required">*</span></label>
 						<input asp-for="User.Occupation" class="form-control" required />
 					</div>
 
@@ -317,7 +322,7 @@
 						<label class="form-check-label">I agree to the Terms and Conditions</label>
 					</div>
 
-					<button class="btn btn-secondary w-100 mb-2" type="button" onclick="nextStep(2)">Back</button>
+					<button class="btn btn-secondary w-100 mb-2" type="button" onclick="nextStep(3,2)">Back</button>
 					<button class="btn btn-success w-100" type="submit">Submit</button>
 				</div>
 			</div>

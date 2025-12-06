@@ -25,5 +25,6 @@ namespace B2B.Models
         public string State { get; set; }
         public string Country { get; set; } = "Malaysia";
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public string LocationOfIncorporation { get; set; }
     }
 }

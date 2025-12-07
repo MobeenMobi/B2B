@@ -32,6 +32,12 @@
                 {
                     <div class="alert alert-success">@ViewBag.Message</div>
                 }
+                @if (TempData["Message"] != null)
+                {
+                    <div class="alert alert-success">
+                        @TempData["Message"]
+                    </div>
+                }
                 <form method="Post" action="/Login/Index">
                     <div class="mb-3">
                         <label class="text-white">Email</label>

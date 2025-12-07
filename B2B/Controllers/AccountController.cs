@@ -150,14 +150,17 @@ namespace B2B.Controllers
                     Email = model.User.Email,
                     PasswordHash = model.User.Password,
                     CreatedAt = DateTime.Now,
-                    IsActive = true
+                    IsActive = true,
+                    LastLogin = null,
+                    OTP = "",
+                    OTPCreatedAt = null
                 };
 
                 _context.UserLogins.Add(userLogin);
                 _context.SaveChanges();
 
 
-                ViewBag.Message = "Registration successful! Your KYB is pending once its done you will be able to lgoin.";
+                TempData["Message"] = "Registration successful! Your KYB is pending. Once it's done you will be able to login.";
                 return RedirectToAction("Index", "Login");
 
             }

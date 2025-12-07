@@ -15,6 +15,6 @@ namespace B2B.Models
         public bool IsActive { get; set; } = true;
         public string Role { get; set; }
         public string OTP { get; set; }
-        public DateTime OTPCreatedAt { get; set; }
+        public DateTime? OTPCreatedAt { get; set; }
     }
 }

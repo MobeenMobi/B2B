@@ -1,43 +1,183 @@
-﻿@model IEnumerable<B2B.Models.Users>;
+﻿@model IEnumerable<B2B.ViewModels.UserCompanyDetailsViewModel>
 
 @section PageContent {
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Nationality</th>
-            <th>DOB</th>
-            <th>Gender</th>
-            <th>Phone</th>
-            <th>Country</th>
-            <th>KYB Approved?</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
+    <table class="table table-bordered table-striped">
+        <thead class="table-light">
             <tr>
-                <td>@user.FirstName @user.LastName</td>
-                <td>@user.PhoneNumber</td>
-                <td>@(user.IsKYBApproved ? "✅ Yes" : "❌ No")</td>
-                    @if(user.IsKYBApproved == true)
-                    {
-                        <td>
-                            <a href="javascript:void(0)" class="btn btn-sm btn-primary disabled">Approve</a>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <a asp-controller="Users" asp-action="UserEdit" asp-route-id="@user.Id" class="btn btn-sm btn-primary">Approve</a>
-                        </td>
-                    }
-
+                <th>Name (Person In Charge)</th>
+                <th>Company Name</th>
+                <th>Business Type</th>
+                <th>KYB Approved?</th>
+                <th>View Documents</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
 
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.FirstName @user.LastName</td>
+                    <td>@user.CompanyName</td>
+                    <td>@user.BusinessType</td>
+
+                    <td class="text-center">
+                        @(user.IsKYBApproved ? "✅ Yes" : "❌ No")
+                    </td>
+
+                    <td class="text-center">
+                        <button class="btn btn-sm btn-primary"
+                                onclick="viewDocuments(@user.UserId)">
+                            View Documents
+                        </button>
+                    </td>
+
+                    <td class="text-center">
+                        @if (user.IsKYBApproved)
+                        {
+                            <a href="javascript:void(0)"
+                               class="btn btn-sm btn-success disabled">
+                                Approved
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Users"
+                               asp-action="UserEdit"
+                               asp-route-id="@user.UserId"
+                               class="btn btn-sm btn-primary">
+                                Approve
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- ================= DOCUMENT VIEW MODAL ================= -->
+    <div class="modal fade" id="docsModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Uploaded Documents
+                    </h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div id="documentsContainer"
+                         class="row">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts {
+    <!-- jQuery (Required for Ajax) -->
+
+
+    <script>
+
+        function viewDocuments(userId)
+        {
+            $("#documentsContainer").html(
+                "<p class='text-center'>Loading documents...</p>"
+            );
+
+            $.ajax({
+                url: "/Users/GetUserDocuments",   // Change if controller name is different
+                type: "GET",
+                data: { userId: userId },
+
+                success: function (response)
+                {
+                    if (response.length === 0)
+                    {
+                        $("#documentsContainer").html(
+                            "<p class='text-danger'>No documents uploaded by this user.</p>"
+                        );
+
+                        $("#docsModal").modal("show");
+                        return;
+                    }
+
+                    let html = "";
+
+                    response.forEach(function (doc)
+                    {
+                        let extension = doc.documentPath
+                            .split('.')
+                            .pop()
+                            .toLowerCase();
+
+                        // ---- PDF ----
+                        if (extension === "pdf")
+                        {
+                            html += `
+                            <div class="col-md-6 mb-4">
+                                <h6>${doc.documentName}</h6>
+                                <iframe
+                                    src="${doc.documentPath}"
+                                    width="100%"
+                                    height="500px"
+                                    class="border rounded">
+                                </iframe>
+                            </div>
+                            `;
+                        }
+
+                        // ---- Images ----
+                        else if (["jpg", "jpeg", "png", "webp"].includes(extension))
+                        {
+                            html += `
+                            <div class="col-md-4 mb-4 text-center">
+                                <h6>${doc.documentName}</h6>
+                                <img src="${doc.documentPath}"
+                                     class="img-fluid rounded border"
+                                     style="max-height:350px;" />
+                            </div>
+                            `;
+                        }
+
+                        // ---- Other files (docx/xlsx/zip etc) ----
+                        else
+                        {
+                            html += `
+                            <div class="col-12 mb-3">
+                                <h6>${doc.documentName}</h6>
+                                <a class="btn btn-secondary"
+                                   href="${doc.documentPath}"
+                                   target="_blank">
+                                   Download Document
+                                </a>
+                            </div>
+                            `;
+                        }
+                    });
+
+                    $("#documentsContainer").html(html);
+                    $("#docsModal").modal("show");
+                },
+
+                error: function ()
+                {
+                    $("#documentsContainer").html(
+                        "<p class='text-danger'>Error loading documents</p>"
+                    );
+
+                    $("#docsModal").modal("show");
+                }
+            });
+        }
+
+    </script>
 }

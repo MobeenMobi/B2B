@@ -16,24 +16,32 @@ namespace B2B.EmailService
 
         public async Task SendEmailAsync(string toEmail, string subject, string body)
         {
-            var mail = new MailMessage
+            using (var client = new SmtpClient())
             {
-                From = new MailAddress(_emailSettings.SenderEmail),
-                Subject = subject,
-                Body = body,
-                IsBodyHtml = true
-            };
+                client.Host = _emailSettings.SmtpServer;
+                client.Port = _emailSettings.Port;
+                client.TargetName =  _emailSettings.SmtpServer;
+                client.EnableSsl = _emailSettings.EnableSsl;
 
-            mail.To.Add(toEmail);
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential(
+                    _emailSettings.SenderEmail,
+                    _emailSettings.SenderPassword
+                );
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
-            using var smtp = new SmtpClient(_emailSettings.SmtpServer)
-            {
-                Port = _emailSettings.Port,
-                Credentials = new NetworkCredential(_emailSettings.SenderEmail, _emailSettings.SenderPassword),
-                EnableSsl = _emailSettings.EnableSsl
-            };
+                var message = new MailMessage
+                {
+                    From = new MailAddress(_emailSettings.SenderEmail),
+                    Subject = subject,
+                    Body = body,
+                    IsBodyHtml = true
+                };
 
-            await smtp.SendMailAsync(mail);
+                message.To.Add(toEmail);
+
+                await client.SendMailAsync(message);
+            }
         }
     }
 }

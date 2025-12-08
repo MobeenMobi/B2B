@@ -1,4 +1,5 @@
 ﻿using B2B.Data;
+using B2B.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace B2B.Controllers
@@ -18,9 +19,27 @@ namespace B2B.Controllers
 
         public IActionResult UsersList()
         {
-            var users = _context.Users.ToList();
 
-            return View(users);
+            var userCompanyDetails =
+            from u in _context.Users
+            join c in _context.CompanyInfo
+                on u.Id equals c.UserId
+            select new UserCompanyDetailsViewModel
+            {
+                // User fields
+                UserId = u.Id,
+               FirstName = u.FirstName,
+               LastName = u.LastName,
+               IsKYBApproved = u.IsKYBApproved,
+
+                // CompanyInfo fields
+                CompanyName = c.CompanyName,
+                BusinessType = c.BusinessType
+
+             };
+
+
+            return View(userCompanyDetails);
         }
 
 
@@ -37,6 +56,19 @@ namespace B2B.Controllers
             return RedirectToAction("UsersList");
         }
 
+        public IActionResult GetUserDocuments(int userId)
+        {
+            var documents = _context.Documents
+                .Where(d => d.UserId == userId)
+                .Select(d => new
+                {
+                    documentName = d.DocumentName,
+                    documentPath = Url.Content("~/uploads/" + Path.GetFileName(d.DocumentPath))
+                    //documentPath = d.DocumentPath   
+                }).ToList();
+
+            return Json(documents);
+        }
 
 
     }

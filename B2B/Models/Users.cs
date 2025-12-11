@@ -16,5 +16,6 @@ namespace B2B.Models
         public string? ApproverName { get; set; }
         public bool Agree { get; set; }
         public bool IsKYBApproved { get; set; } = false;
+        public string ReturnComments { get; set; }
     }
 }

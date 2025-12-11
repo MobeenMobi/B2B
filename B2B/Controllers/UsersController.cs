@@ -1,4 +1,5 @@
 ﻿using B2B.Data;
+using B2B.EmailService;
 using B2B.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,10 +8,12 @@ namespace B2B.Controllers
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IEmailService _emailService;
 
-        public UsersController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
         public IActionResult Index()
         {
@@ -64,12 +67,28 @@ namespace B2B.Controllers
                 {
                     documentName = d.DocumentName,
                     documentPath = Url.Content("~/uploads/" + Path.GetFileName(d.DocumentPath))
-                    //documentPath = d.DocumentPath   
                 }).ToList();
 
             return Json(documents);
         }
 
+        [HttpGet]
+        public IActionResult KYBReturn(int id, string comments)
+        {
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            user.ReturnComments = comments;
+            _context.SaveChanges();
+
+            //_emailService.SendEmailAsync(,)
+
+            TempData["Message"] = "User returned successfully.";
+
+            return RedirectToAction("UsersList");
+        }
 
     }
 }

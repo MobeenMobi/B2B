@@ -61,6 +61,8 @@ namespace B2B.Controllers
             _context.Entry(user).State = EntityState.Modified;
             _context.SaveChanges();
 
+            _emailService.SendEmailAsync(email, "Your OTP is", otp);
+
             HttpContext.Session.SetString("UserName", Firstname);
 
             return RedirectToAction("VerifyOtp");

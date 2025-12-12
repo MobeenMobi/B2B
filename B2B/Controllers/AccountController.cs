@@ -200,6 +200,7 @@ namespace B2B.Controllers
             {
                 User = new UserViewModel
                 {
+                    Id = user.Id,
                     FirstName = user.FirstName,
                     MiddleName = user.MiddleName,
                     LastName = user.LastName,
@@ -337,36 +338,38 @@ namespace B2B.Controllers
             }
 
             // Upload new documents
-            if (model.DocumentUpload.Documents != null)
+            if (model.DocumentUpload != null)
             {
-                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-
-                if (!Directory.Exists(uploadPath))
-                    Directory.CreateDirectory(uploadPath);
-
-                foreach (var file in model.DocumentUpload.Documents)
+                if (model.DocumentUpload.Documents != null)
                 {
-                    string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                    string filePath = Path.Combine(uploadPath, uniqueFileName);
+                    var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
 
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    if (!Directory.Exists(uploadPath))
+                        Directory.CreateDirectory(uploadPath);
+
+                    foreach (var file in model.DocumentUpload.Documents)
                     {
-                        file.CopyTo(stream);
+                        string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                        string filePath = Path.Combine(uploadPath, uniqueFileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            file.CopyTo(stream);
+                        }
+
+                        var document = new Documents
+                        {
+                            UserId = id,
+                            DocumentName = file.FileName,
+                            DocumentPath = "/wwwroot/uploads/" + uniqueFileName,
+                            DocumentType = file.ContentType,
+                            UploadDate = DateTime.Now
+                        };
+
+                        _context.Documents.Add(document);
                     }
-
-                    var document = new Documents
-                    {
-                        UserId = id,
-                        DocumentName = file.FileName,
-                        DocumentPath = "/wwwroot/uploads/" + uniqueFileName,
-                        DocumentType = file.ContentType,
-                        UploadDate = DateTime.Now
-                    };
-
-                    _context.Documents.Add(document);
                 }
             }
-
             _context.SaveChanges();
 
             TempData["Message"] = "Profile updated successfully!";

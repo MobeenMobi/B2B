@@ -171,6 +171,209 @@ namespace B2B.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult EditRegistration(int id)
+        {
+            // Load User
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            if (user == null)
+                return NotFound();
+
+            // Load Company Info
+            var company = _context.CompanyInfo.FirstOrDefault(c => c.UserId == id);
+
+            // Load Bank Info
+            var bank = _context.BankInfo.FirstOrDefault(b => b.UserId == id);
+
+            // Load Remittance List
+            var remittance = _context.RemittanceDetail
+                .Where(r => r.BankInfoId == bank.Id)
+                .ToList();
+
+            // Load Documents
+            var documents = _context.Documents
+                .Where(d => d.UserId == id)
+                .ToList();
+
+            // Build ViewModel
+            var model = new RegisterViewModel
+            {
+                User = new UserViewModel
+                {
+                    FirstName = user.FirstName,
+                    MiddleName = user.MiddleName,
+                    LastName = user.LastName,
+                    IDType = user.IDType,
+                    IDNumber = user.IDNumber,
+                    PhoneNumber = user.PhoneNumber,
+                    Occupation = user.Occupation,
+                    ApproverName = user.ApproverName,
+                    Agree = user.Agree,
+                    Email = _context.UserLogins.FirstOrDefault(x => x.UserId == id)?.Email,
+                },
+
+                Company = new CompanyInfo
+                {
+                    CompanyName = company?.CompanyName,
+                    RegistrationNumber = company?.RegistrationNumber,
+                    DateOfIncorporation = company.DateOfIncorporation,
+                    BusinessType = company?.BusinessType,
+                    NatureOfBusiness = company?.NatureOfBusiness,
+                    ShortBusinessDescription = company?.ShortBusinessDescription,
+                    CompanyEmail = company?.CompanyEmail,
+                    CompanyWebsite = company?.CompanyWebsite,
+                    PhoneNo = company?.PhoneNo,
+                    AddressLine1 = company?.AddressLine1,
+                    AddressLine2 = company?.AddressLine2,
+                    AddressLine3 = company?.AddressLine3,
+                    City = company?.City,
+                    Postcode = company?.Postcode,
+                    State = company?.State,
+                    Country = company?.Country,
+                },
+
+                Bank = new BankInfoViewModel
+                {
+                    Bank = bank?.Bank,
+                    AccountHolder = bank?.AccountHolder,
+                    AccountNumber = bank?.AccountNumber,
+                    AverageAnnualTrunover = bank.AverageAnnualTrunover,
+                    RemittanceDetails = remittance.Select(r => new RemittanceDetailViewModel
+                    {
+                        CountryName = r.CountryName,
+                        PurposeOfRemit = r.PurposeOfRemit
+                    }).ToList()
+                }
+            };
+
+            ViewBag.IsEdit = true; // to know if saving should call Edit instead of Register
+
+            return View("Register", model);  // Reuse same view
+        }
+
+        [HttpPost]
+        public IActionResult EditRegistration(int id, RegisterViewModel model)
+        {
+            // Load DB objects
+            var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            var company = _context.CompanyInfo.FirstOrDefault(c => c.UserId == id);
+            var bank = _context.BankInfo.FirstOrDefault(b => b.UserId == id);
+            var login = _context.UserLogins.FirstOrDefault(l => l.UserId == id);
+
+            if (user == null)
+                return NotFound();
+
+            // Update User
+            user.FirstName = model.User.FirstName;
+            user.MiddleName = model.User.MiddleName;
+            user.LastName = model.User.LastName;
+            user.IDType = model.User.IDType;
+            user.IDNumber = model.User.IDNumber;
+            user.PhoneNumber = model.User.PhoneNumber;
+            user.Occupation = model.User.Occupation;
+            user.ApproverName = model.User.ApproverName;
+            user.Agree = model.User.Agree;
+
+            _context.Users.Update(user);
+
+            // Update Company Info
+            if (company != null)
+            {
+                company.CompanyName = model.Company.CompanyName;
+                company.RegistrationNumber = model.Company.RegistrationNumber;
+                company.DateOfIncorporation = model.Company.DateOfIncorporation;
+                company.BusinessType = model.Company.BusinessType;
+                company.NatureOfBusiness = model.Company.NatureOfBusiness;
+                company.ShortBusinessDescription = model.Company.ShortBusinessDescription;
+                company.CompanyEmail = model.Company.CompanyEmail;
+                company.CompanyWebsite = model.Company.CompanyWebsite;
+                company.PhoneNo = model.Company.PhoneNo;
+                company.AddressLine1 = model.Company.AddressLine1;
+                company.AddressLine2 = model.Company.AddressLine2;
+                company.AddressLine3 = model.Company.AddressLine3;
+                company.City = model.Company.City;
+                company.Postcode = model.Company.Postcode;
+                company.State = model.Company.State;
+                company.Country = model.Company.Country;
+
+                _context.CompanyInfo.Update(company);
+            }
+
+            // Update Bank Info
+            if (bank != null)
+            {
+                bank.Bank = model.Bank.Bank;
+                bank.AccountHolder = model.Bank.AccountHolder;
+                bank.AccountNumber = model.Bank.AccountNumber;
+                bank.AverageAnnualTrunover = model.Bank.AverageAnnualTrunover;
+
+                _context.BankInfo.Update(bank);
+            }
+
+            // Update Remittance Details
+            var oldRemittances = _context.RemittanceDetail.Where(r => r.BankInfoId == bank.Id);
+            _context.RemittanceDetail.RemoveRange(oldRemittances);
+
+            if (model.Bank.RemittanceDetails != null)
+            {
+                foreach (var item in model.Bank.RemittanceDetails)
+                {
+                    _context.RemittanceDetail.Add(new RemittanceDetail
+                    {
+                        BankInfoId = bank.Id,
+                        CountryName = item.CountryName,
+                        PurposeOfRemit = item.PurposeOfRemit,
+                        CreatedAt = DateTime.Now
+                    });
+                }
+            }
+
+            // Update Login
+            if (login != null)
+            {
+                login.Email = model.User.Email;
+                login.PasswordHash = model.User.Password; // hash later
+                _context.UserLogins.Update(login);
+            }
+
+            // Upload new documents
+            if (model.DocumentUpload.Documents != null)
+            {
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
+
+                if (!Directory.Exists(uploadPath))
+                    Directory.CreateDirectory(uploadPath);
+
+                foreach (var file in model.DocumentUpload.Documents)
+                {
+                    string uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                    string filePath = Path.Combine(uploadPath, uniqueFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        file.CopyTo(stream);
+                    }
+
+                    var document = new Documents
+                    {
+                        UserId = id,
+                        DocumentName = file.FileName,
+                        DocumentPath = "/wwwroot/uploads/" + uniqueFileName,
+                        DocumentType = file.ContentType,
+                        UploadDate = DateTime.Now
+                    };
+
+                    _context.Documents.Add(document);
+                }
+            }
+
+            _context.SaveChanges();
+
+            TempData["Message"] = "Profile updated successfully!";
+            return RedirectToAction("Index", "Dashboard");
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> SendOtp(string clientEmail)
         {

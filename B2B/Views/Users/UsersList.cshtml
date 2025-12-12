@@ -1,6 +1,19 @@
 ﻿@model IEnumerable<B2B.ViewModels.UserCompanyDetailsViewModel>
 
 @section PageContent {
+    @if (TempData["ApproveMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["ApproveMessage"]
+        </div>
+    }
+
+    @if (TempData["ReturnMessage"] != null)
+    {
+        <div class="alert alert-success">
+            @TempData["ReturnMessage"]
+        </div>
+    }
 
     <table class="table table-bordered table-striped">
         <thead class="table-light">

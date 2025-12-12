@@ -42,6 +42,12 @@ namespace B2B.Controllers
                 return View();
             }
 
+            bool IsReturned = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.IsReturned).FirstOrDefault();
+            if(IsReturned == true)
+            {
+                return RedirectToAction("EditRegistration", "Account", new { id = user.UserId });
+            }
+
 
             var Firstname = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.FirstName).FirstOrDefault();
             bool KYBStatus = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.IsKYBApproved).FirstOrDefault();

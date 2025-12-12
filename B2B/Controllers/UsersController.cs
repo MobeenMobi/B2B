@@ -2,6 +2,7 @@
 using B2B.EmailService;
 using B2B.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Xml.Linq;
 
 namespace B2B.Controllers
 {
@@ -49,12 +50,18 @@ namespace B2B.Controllers
         public IActionResult UserEdit(int id)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            string Email = _context.UserLogins.Where(x => x.UserId == id).Select(y => y.Email).FirstOrDefault();
             if (user == null)
             {
                 return NotFound();
             }
-            user.IsKYBApproved = true;
             _context.SaveChanges();
+
+
+            user.IsKYBApproved = true;
+            _emailService.SendEmailAsync(Email, "KYB Approved", "Congratulations your KYB has been approved.");
+
+            TempData["ApproveMessage"] = "User has been Approved successfully.";
 
             return RedirectToAction("UsersList");
         }
@@ -76,16 +83,18 @@ namespace B2B.Controllers
         public IActionResult KYBReturn(int id, string comments)
         {
             var user = _context.Users.FirstOrDefault(u => u.Id == id);
+            string Email = _context.UserLogins.Where(x => x.UserId == id).Select(y => y.Email).FirstOrDefault();
             if (user == null)
             {
                 return NotFound();
             }
             user.ReturnComments = comments;
+            user.IsReturned = true;
             _context.SaveChanges();
 
-            //_emailService.SendEmailAsync(,)
+            _emailService.SendEmailAsync(Email, "Application Returned", comments);
 
-            TempData["Message"] = "User returned successfully.";
+            TempData["ReturnMessage"] = "User has been returned successfully.";
 
             return RedirectToAction("UsersList");
         }

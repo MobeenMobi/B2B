@@ -153,7 +153,8 @@ namespace B2B.Controllers
                     IsActive = true,
                     LastLogin = null,
                     OTP = "",
-                    OTPCreatedAt = null
+                    OTPCreatedAt = null,
+                    RoleId = 6
                 };
 
                 _context.UserLogins.Add(userLogin);
@@ -372,8 +373,9 @@ namespace B2B.Controllers
             }
             _context.SaveChanges();
 
-            TempData["Message"] = "Profile updated successfully!";
-            return RedirectToAction("Index", "Dashboard");
+
+            TempData["Message"] = "Registration update successful! Your KYB is pending. Once it's done you will be able to login.";
+            return RedirectToAction("Index", "Login");
         }
 
 

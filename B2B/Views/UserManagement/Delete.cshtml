@@ -1,0 +1,39 @@
+﻿@model B2B.Models.OTRUsers
+@{
+    ViewBag.Title = "Delete OTR User";
+}
+
+<h2>Delete OTR User</h2>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-danger text-white">
+            Confirm Deletion
+        </div>
+        <div class="card-body">
+            <h5>Are you sure you want to delete this user?</h5>
+            <dl class="row">
+                <dt class="col-sm-3">First Name</dt>
+                <dd class="col-sm-9">@Model.FirstName</dd>
+
+                <dt class="col-sm-3">Last Name</dt>
+                <dd class="col-sm-9">@Model.LastName</dd>
+
+                <dt class="col-sm-3">ID Type</dt>
+                <dd class="col-sm-9">@Model.IDType</dd>
+
+                <dt class="col-sm-3">ID Number</dt>
+                <dd class="col-sm-9">@Model.IDNumber</dd>
+
+                <dt class="col-sm-3">Phone Number</dt>
+                <dd class="col-sm-9">@Model.PhoneNumber</dd>
+            </dl>
+
+            <form asp-action="DeleteConfirmed" method="post">
+                <input type="hidden" asp-for="Id" />
+                <button type="submit" class="btn btn-danger">Delete</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

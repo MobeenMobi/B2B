@@ -1,0 +1,67 @@
+﻿@model B2B.Models.OTRUsers
+@{
+    ViewBag.Title = "Edit OTR User";
+}
+
+<h2>Edit OTR User</h2>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            Edit User Details
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit" method="post">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label asp-for="FirstName" class="form-label"></label>
+                        <input asp-for="FirstName" class="form-control" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="MiddleName" class="form-label"></label>
+                        <input asp-for="MiddleName" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="LastName" class="form-label"></label>
+                        <input asp-for="LastName" class="form-control" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="IDType" class="form-label"></label>
+                        <input asp-for="IDType" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label asp-for="IDNumber" class="form-label"></label>
+                        <input asp-for="IDNumber" class="form-control" required />
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="PhoneNumber" class="form-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-2">
+                        <div class="form-check mt-4">
+                            <input asp-for="IsActive" class="form-check-input" />
+                            <label asp-for="IsActive" class="form-check-label">Active</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-check mt-4">
+                            <input asp-for="IsDelete" class="form-check-input" />
+                            <label asp-for="IsDelete" class="form-check-label">Deleted</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success">Save Changes</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

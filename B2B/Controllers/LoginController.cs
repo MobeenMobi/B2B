@@ -41,23 +41,32 @@ namespace B2B.Controllers
                 
                 return View();
             }
+            string Firstname = "";
 
-            bool IsReturned = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.IsReturned).FirstOrDefault();
-            if(IsReturned == true)
+            if (user.IsOTRUser == false)
             {
-                return RedirectToAction("EditRegistration", "Account", new { id = user.UserId });
+
+                bool IsReturned = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.IsReturned).FirstOrDefault();
+                if (IsReturned == true)
+                {
+                    return RedirectToAction("EditRegistration", "Account", new { id = user.UserId });
+                }
+
+
+                Firstname = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.FirstName).FirstOrDefault();
+                bool KYBStatus = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.IsKYBApproved).FirstOrDefault();
+
+                if (!KYBStatus)
+                {
+                    ViewBag.Error = "KYB not approved yet. Please wait for approval.";
+                    return View();
+                }
             }
-
-
-            var Firstname = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.FirstName).FirstOrDefault();
-            bool KYBStatus = _context.Users.Where(u => u.Id == user.UserId).Select(u => u.IsKYBApproved).FirstOrDefault();
-
-            if (!KYBStatus)
+            else
             {
-                ViewBag.Error = "KYB not approved yet. Please wait for approval.";
-                return View();
+                Firstname = _context.OTRUsers.Where(u => u.Id == user.UserId).Select(u => u.FirstName).FirstOrDefault();
             }
-            string otp = GenerateSecureOtp();
+                string otp = GenerateSecureOtp();
             TempData["OTP"] = otp;
             TempData["OtpExpiry"] = DateTime.Now.AddMinutes(5);
 

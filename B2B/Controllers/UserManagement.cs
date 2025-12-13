@@ -60,7 +60,7 @@ namespace B2B.Controllers
                 user.CreatedAt = DateTime.Now;
                 user.IsActive = true;
                 _context.Add(user);
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
 
                 int otrUserId = _context.OTRUsers.OrderByDescending(x => x.Id).Select(x => x.Id).FirstOrDefault();
 
@@ -80,7 +80,8 @@ namespace B2B.Controllers
                 };
 
 
-
+                _context.Add(userLogin);
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(user);

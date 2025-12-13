@@ -22,6 +22,8 @@
                         <th>Last Name</th>
                         <th>ID Type</th>
                         <th>ID Number</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -35,6 +37,7 @@
                             <td>@user.IDType</td>
                             <td>@user.IDNumber</td>
                             <td>@user.PhoneNumber</td>
+                            <td>@user.Email</td>
                             <td>
                                 <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-primary">Edit</a>
                                 <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-sm btn-danger">Delete</a>

@@ -1,11 +1,8 @@
-﻿using B2B.Data; // Replace with your DbContext namespace
-using B2B.Models; // Replace with your Models namespace
-using Microsoft.AspNetCore.Mvc;
+﻿using B2B.Data;
+using B2B.Models; 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading.Tasks;
 
 namespace B2B.Controllers
 {
@@ -56,13 +53,34 @@ namespace B2B.Controllers
         // POST: UserManagement/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(OTRUsers user)
+        public IActionResult Create(OTRUsers user)
         {
             if (ModelState.IsValid)
             {
                 user.CreatedAt = DateTime.Now;
+                user.IsActive = true;
                 _context.Add(user);
-                await _context.SaveChangesAsync();
+                _context.SaveChangesAsync();
+
+                int otrUserId = _context.OTRUsers.OrderByDescending(x => x.Id).Select(x => x.Id).FirstOrDefault();
+
+                var userLogin = new UserLogins
+                {
+                    UserId = otrUserId,
+                    Email = user.Email,
+                    PasswordHash = user.Password,
+                    CreatedAt = DateTime.Now,
+                    IsActive = true,
+                    LastLogin = null,
+                    OTP = "",
+                    OTPCreatedAt = null,
+                    RoleId = user.RoleId,
+                    IsOTRUser = true
+                    
+                };
+
+
+
                 return RedirectToAction(nameof(Index));
             }
             return View(user);
@@ -85,12 +103,21 @@ namespace B2B.Controllers
         public async Task<IActionResult> Edit(int id, OTRUsers user)
         {
             if (id != user.Id) return NotFound();
-
+            OTRUsers otrUser = _context.OTRUsers.Where(x => x.Id == user.Id).FirstOrDefault();
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(user);
+                    otrUser.FirstName = user.FirstName;
+                    otrUser.LastName = user.LastName;   
+                    otrUser.MiddleName = user.MiddleName;
+                    otrUser.IDType = user.IDType;
+                    otrUser.IDNumber = user.IDNumber;
+                    otrUser.PhoneNumber = user.PhoneNumber;
+                    otrUser.Email = user.Email;
+
+
+                    _context.Update(otrUser);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

@@ -1,4 +1,6 @@
-﻿namespace B2B.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace B2B.Models
 {
     public class OTRUsers
     {
@@ -13,6 +15,15 @@
         public bool IsDelete { get; set; }
         public DateTime CreatedAt { get; set; }
         public int RoleId { get; set; }
+        public string Email { get; set; }
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "Passwords do not match.")]
+        public string RetypePassword { get; set; }
     }
 
 }

@@ -16,5 +16,6 @@ namespace B2B.Models
         public string? OTP { get; set; }
         public DateTime? OTPCreatedAt { get; set; }
         public int RoleId { get; set; }
+        public bool IsOTRUser { get; set; }
     }
 }

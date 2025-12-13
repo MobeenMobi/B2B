@@ -154,7 +154,8 @@ namespace B2B.Controllers
                     LastLogin = null,
                     OTP = "",
                     OTPCreatedAt = null,
-                    RoleId = 6
+                    RoleId = 6,
+                    IsOTRUser = false
                 };
 
                 _context.UserLogins.Add(userLogin);
